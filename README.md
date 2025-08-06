@@ -30,7 +30,7 @@ HsBaGA 是一个用于实现遗传算法（Genetic Algorithm, GA）的 C++ 框�
 
 1. 克隆仓库：
    ```bash
-   git clone https://gitee.com/hsmbalance/HsBaGA.git
+   git clone https://github.com/hsmbanlance/HsBaGA.git
    cd HsBaGA
    ```
 
