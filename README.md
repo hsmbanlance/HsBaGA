@@ -39,7 +39,7 @@ HsBaGA 是一个用于实现遗传算法（Genetic Algorithm, GA）的 C++ 框�
    mkdir build
    cd build
    cmake ..
-   make
+   cmake --build .
    ```
 
 3. 运行示例：
