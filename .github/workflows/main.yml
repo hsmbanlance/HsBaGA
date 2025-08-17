@@ -1,0 +1,80 @@
+name: Build and Run SimpleUInt
+
+on:
+  workflow_dispatch: # 手动触发
+
+jobs:
+  build-and-run-linux:
+    name: Build and Run on Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up C++20
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-11
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60 --slave /usr/bin/gcc gcc /usr/bin/gcc-11
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure CMake
+        run: |
+          cd build
+          cmake -DCMAKE_CXX_STANDARD=20 ..
+
+      - name: Build project
+        run: |
+          cd build
+          cmake --build .
+
+      - name: Run SimpleUInt
+        run: |
+          cd build
+          ./SimpleUInt > SimpleUInt.log
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v3
+        with:
+          name: SimpleUInt.log
+          path: build/SimpleUInt.log
+
+  build-and-run-windows:
+    name: Build and Run on Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up C++20
+        uses: actions/setup-msvc@v1
+        with:
+          msvc-version: 'latest'
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure CMake
+        run: |
+          cd build
+          cmake -DCMAKE_CXX_STANDARD=20 ..
+
+      - name: Build project
+        run: |
+          cd build
+          cmake --build .
+
+      - name: Run SimpleUInt
+        run: |
+          cd build
+          .\SimpleUInt.exe > SimpleUInt.log
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v3
+        with:
+          name: SimpleUInt.log
+          path: build/SimpleUInt.log
