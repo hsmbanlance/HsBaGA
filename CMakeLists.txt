@@ -48,7 +48,7 @@ install(EXPORT HsBaGA-targets
 # 配置和安装 config.cmake 文件
 include(CMakePackageConfigHelpers)
 configure_package_config_file(
-    ${PROJECT_SOURCE_DIR}/cmake/config.cmake.in
+    ${PROJECT_SOURCE_DIR}/CMake/config.cmake.in
     ${PROJECT_BINARY_DIR}/HsBaGA-config.cmake
     INSTALL_DESTINATION share/HsBaGA
 )
