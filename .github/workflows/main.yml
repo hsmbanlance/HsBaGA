@@ -5,12 +5,12 @@ on:
 
 jobs:
   build-and-run-linux:
-    name: Build and Run on Linux
+    name: Build and Run on Linux (Debug)
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up C++20
         run: |
@@ -18,63 +18,51 @@ jobs:
           sudo apt-get install -y g++-11
           sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60 --slave /usr/bin/gcc gcc /usr/bin/gcc-11
 
-      - name: Create build directory
-        run: mkdir build
-
       - name: Configure CMake
         run: |
-          cd build
-          cmake -DCMAKE_CXX_STANDARD=20 ..
+          cmake --preset linux-debug
 
       - name: Build project
         run: |
-          cd build
-          cmake --build .
+          cmake --build out/build/linux-debug
 
       - name: Run SimpleUInt
         run: |
-          cd build
-          ./SimpleUInt > SimpleUInt.log
+          ./out/build/linux-debug/SimpleUInt > out/build/linux-debug/SimpleUInt.log
 
       - name: Upload log file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SimpleUInt.log
-          path: build/SimpleUInt.log
+          path: out/build/linux-debug/SimpleUInt.log
 
   build-and-run-windows:
-    name: Build and Run on Windows
+    name: Build and Run on Windows (Release)
     runs-on: windows-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up C++20
         uses: actions/setup-msvc@v1
         with:
           msvc-version: 'latest'
 
-      - name: Create build directory
-        run: mkdir build
-
       - name: Configure CMake
         run: |
-          cd build
-          cmake -DCMAKE_CXX_STANDARD=20 ..
+          cmake --preset x64-release
 
       - name: Build project
         run: |
-          cd build
-          cmake --build .
+          cmake --build out/build/x64-release
 
       - name: Run SimpleUInt
         run: |
-          cd build
-          .\SimpleUInt.exe > SimpleUInt.log
+          .\out\build\x64-release\SimpleUInt.exe > out\build\x64-release\SimpleUInt.log
 
       - name: Upload log file
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SimpleUInt.log
-          path: build/SimpleUInt.log
+          path: out\build\x64-release\SimpleUInt.log
