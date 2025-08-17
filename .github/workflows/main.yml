@@ -15,8 +15,8 @@ jobs:
       - name: Set up C++20
         run: |
           sudo apt-get update
-          sudo apt-get install -y g++-11
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60 --slave /usr/bin/gcc gcc /usr/bin/gcc-11
+          sudo apt-get install -y g++-13
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 60 --slave /usr/bin/gcc gcc /usr/bin/gcc-13
 
       - name: Configure CMake
         run: |
@@ -28,13 +28,13 @@ jobs:
 
       - name: Run SimpleUInt
         run: |
-          ./out/build/linux-debug/SimpleUInt > out/build/linux-debug/SimpleUInt.log
+          ./out/build/linux-debug/Samples/SimpleUInt > out/build/linux-debug/Samples/SimpleUInt.log
 
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
           name: SimpleUInt.log
-          path: out/build/linux-debug/SimpleUInt.log
+          path: out/build/linux-debug/Samples/SimpleUInt.log
 
   build-and-run-windows:
     name: Build and Run on Windows (Release)
@@ -59,10 +59,10 @@ jobs:
 
       - name: Run SimpleUInt
         run: |
-          .\out\build\x64-release\SimpleUInt.exe > out\build\x64-release\SimpleUInt.log
+          .\out\build\x64-release\Samples\SimpleUInt.exe > out\build\x64-release\Samples\SimpleUInt.log
 
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
           name: SimpleUInt.log
-          path: out\build\x64-release\SimpleUInt.log
+          path: out/build/x64-release/Samples/SimpleUInt.log
