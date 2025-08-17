@@ -1,0 +1,68 @@
+name: Build and Run SimpleUInt
+
+on:
+  workflow_dispatch: # 手动触发
+
+jobs:
+  build-and-run-linux:
+    name: Build and Run on Linux (Debug)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up C++20
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-11
+          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 60 --slave /usr/bin/gcc gcc /usr/bin/gcc-11
+
+      - name: Configure CMake
+        run: |
+          cmake --preset linux-debug
+
+      - name: Build project
+        run: |
+          cmake --build out/build/linux-debug
+
+      - name: Run SimpleUInt
+        run: |
+          ./out/build/linux-debug/SimpleUInt > out/build/linux-debug/SimpleUInt.log
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimpleUInt.log
+          path: out/build/linux-debug/SimpleUInt.log
+
+  build-and-run-windows:
+    name: Build and Run on Windows (Release)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up C++20
+        uses: actions/setup-msvc@v1
+        with:
+          msvc-version: 'latest'
+
+      - name: Configure CMake
+        run: |
+          cmake --preset x64-release
+
+      - name: Build project
+        run: |
+          cmake --build out/build/x64-release
+
+      - name: Run SimpleUInt
+        run: |
+          .\out\build\x64-release\SimpleUInt.exe > out\build\x64-release\SimpleUInt.log
+
+      - name: Upload log file
+        uses: actions/upload-artifact@v4
+        with:
+          name: SimpleUInt.log
+          path: out\build\x64-release\SimpleUInt.log
