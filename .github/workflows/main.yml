@@ -33,7 +33,7 @@ jobs:
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
-          name: SimpleUInt.log
+          name: SimpleUInt-linux-debug.log
           path: out/build/linux-debug/Samples/SimpleUInt.log
 
   build-and-run-windows:
@@ -64,5 +64,5 @@ jobs:
       - name: Upload log file
         uses: actions/upload-artifact@v4
         with:
-          name: SimpleUInt.log
+          name: SimpleUInt-windows-release.log
           path: out/build/x64-release/Samples/SimpleUInt.log
